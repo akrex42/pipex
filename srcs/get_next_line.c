@@ -1,78 +1,46 @@
 #include "../includes/pipex.h"
 
-#define BUFFER_SIZE 1
-
-static int		returned(char *p_na, char **rem)
+char	*ft_strappend(char *s, char c)
 {
-	if (p_na)
-		return (1);
-	else
+	int		i;
+	char	*str;
+
+	i = 0;
+	while (s[i])
 	{
-		free(*rem);
-		*rem = NULL;
-		return (0);
+		i++;
 	}
-}
-
-static void		ft_free(char *tmp, char **rem)
-{
-	free(tmp);
-	free(*rem);
-	*rem = NULL;
-}
-
-static char		*check_remainder(char **rem, char **line)
-{
-	char *p_na;
-	char *tmp;
-
-	p_na = NULL;
-	*line = ft_strdup("");
-	if (*rem != NULL)
+	str = (char *)malloc(i + 2);
+	if (str == NULL)
+		return (NULL);
+	i = 0;
+	while (s[i])
 	{
-		if ((p_na = ft_strchr(*rem, '\n')) != NULL)
-		{
-			*p_na = '\0';
-			tmp = *line;
-			*line = ft_strjoin(*line, *rem);
-			free(tmp);
-			tmp = *rem;
-			*rem = ft_strdup(++p_na);
-			free(tmp);
-		}
-		else
-		{
-			tmp = *line;
-			*line = ft_strdup(*rem);
-			ft_free(tmp, rem);
-		}
+		str[i] = s[i];
+		i++;
 	}
-	return (p_na);
+	str[i] = c;
+	str[i + 1] = '\0';
+	free(s);
+	return (str);
 }
 
-int				get_next_line(int fd, char **line)
+int	get_next_line(int fd, char **line)
 {
-	char		buf[BUFFER_SIZE + 1];
-	long		byte_read;
-	char		*p_n;
-	static char *rem;
-	char		*tmp;
+	char	*buf;
 
-	if (BUFFER_SIZE <= 0 || !(line) || (read(fd, buf, 0) < 0))
+	buf = (char *)malloc(2);
+	*line = malloc(1);
+	if ((*line == NULL) || !buf)
 		return (-1);
-	p_n = check_remainder(&rem, line);
-	while (!p_n && (byte_read = read(fd, buf, BUFFER_SIZE)))
+	*line[0] = '\0';
+	while ((read(fd, buf, 1)) > 0)
 	{
-		buf[byte_read] = '\0';
-		if ((p_n = ft_strchr(buf, '\n')))
-		{
-			*p_n = '\0';
-			rem = ft_strdup(++p_n);
-		}
-		tmp = *line;
-		if (!(*line = ft_strjoin(*line, buf)))
-			return (-1);
-		free(tmp);
+		buf[1] = '\0';
+		if (buf[0] == '\n')
+			break ;
+		*line = ft_strappend(*line, buf[0]);
 	}
-	return (returned(p_n, &rem));
+	free(buf);
+	return (0);
 }
