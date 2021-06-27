@@ -12,17 +12,20 @@
 
 #include "libft.h"
 
-static int		ft_nbrlen(long long n)
+static int	ft_nbrlen(long long n)
 {
-	int nbrlen;
+	int	nbrlen;
 
 	nbrlen = 1;
-	while ((n /= 10))
+	while (n)
+	{
 		nbrlen++;
+		n /= 10;
+	}
 	return (nbrlen);
 }
 
-static void		ft_tostring(long long n, char *number, int i)
+static void	ft_tostring(long long n, char *number, int i)
 {
 	if (n == 0)
 		number[0] = '0';
@@ -41,7 +44,7 @@ static void		ft_tostring(long long n, char *number, int i)
 	}
 }
 
-char			*ft_itoa(int n)
+char	*ft_itoa(int n)
 {
 	int			len;
 	long long	nn;
@@ -53,7 +56,7 @@ char			*ft_itoa(int n)
 		len = ft_nbrlen(nn) + 2;
 	else
 		len = ft_nbrlen(nn) + 1;
-	number = (char*)malloc(len * sizeof(char));
+	number = (char *)malloc(len * sizeof(char));
 	if (!number)
 		return (NULL);
 	ft_tostring(nn, number, len);

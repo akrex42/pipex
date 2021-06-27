@@ -12,11 +12,11 @@
 
 #include "libft.h"
 
-void		*ft_calloc(size_t num, size_t size)
+void	*ft_calloc(size_t num, size_t size)
 {
-	char *str;
+	char	*str;
 
-	str = (char*)malloc(num * size);
+	str = (char *)malloc(num * size);
 	if (!str)
 		return (NULL);
 	ft_bzero(str, num * size);

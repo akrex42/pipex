@@ -9,7 +9,7 @@ void	create_redir(t_all *all)
 		perror(all->argv[all->argc - 1]);
 		exit(1);
 	}
-	dup2(all->fd_out, 1);
+	dup2(all->fd_out, STDOUT_FILENO);
 	close(all->fd_out);
 }
 
@@ -22,7 +22,7 @@ void	create_double_redir(t_all *all)
 		perror(all->argv[all->argc - 1]);
 		exit(1);
 	}
-	dup2(all->fd_out, 1);
+	dup2(all->fd_out, STDOUT_FILENO);
 	close(all->fd_out);
 }
 
@@ -34,13 +34,13 @@ void	create_fd_in(t_all *all)
 		perror(all->argv[1]);
 		exit(1);
 	}
-	dup2(all->fd_in, 0);
+	dup2(all->fd_in, STDIN_FILENO);
 	close(all->fd_in);
 }
 
 void	file_2_handling(t_all *all, int i)
 {
-	dup2(all->pipe_fd[i - 1][0], 0);
+	dup2(all->pipe_fd[i - 1][0], STDIN_FILENO);
 	if (all->flag)
 		create_double_redir(all);
 	else
@@ -53,5 +53,5 @@ void	file_1_handling(t_all *all, int i)
 		create_here_doc(all);
 	else
 		create_fd_in(all);
-	dup2(all->pipe_fd[i][1], 1);
+	dup2(all->pipe_fd[i][1], STDOUT_FILENO);
 }

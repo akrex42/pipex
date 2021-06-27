@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-int		ft_isalpha(int alph)
+int	ft_isalpha(int alph)
 {
 	if ((alph >= 'a' && alph <= 'z') || (alph >= 'A' && alph <= 'Z'))
 		return (1);

@@ -14,19 +14,19 @@
 typedef struct s_all
 {
 	pid_t	*pid;
-	int 	fd_in;
+	int		fd_in;
 	int		fd_out;
 	char	**path;
-	int 	flag;
-	int 	flag_path;
-	int 	flag_exit;
+	int		flag;
+	int		flag_path;
+	int		errnum;
 	int		commands_amount;
 	int		commands_amount_pipes;
 	char	*line;
 	char	**env;
 	char	**argv;
-	int 	argc;
-	int 	**pipe_fd;
+	int		argc;
+	int		**pipe_fd;
 	char	**cmd;
 }				t_all;
 
@@ -37,8 +37,8 @@ void			create_fd_in(t_all *all);
 void			create_here_doc(t_all *all);
 void			wait_for_commands(t_all *all, int n);
 void			create_cmd(t_all *all, t_list *lst);
-int				execute_processes(t_all *all);
-int				children_processes(t_all *all, t_list *lst, int i);
+void			execute_processes(t_all *all);
+void			children_processes(t_all *all, t_list *lst, int i);
 void			create_processes(t_all *all, t_list *lst);
 void			find_path(t_all *all);
 void			file_2_handling(t_all *all, int i);
@@ -50,11 +50,7 @@ void			close_pipes(t_all *all);
 void			create_pipes(t_all *all);
 void			free_func(t_all *all, t_list *lst);
 void			print_error(char *arg);
-
-
-
-
-
-
+int				internal_cycle(t_all *all);
+void			print_enoent(int exit_status, t_all *all);
 
 #endif

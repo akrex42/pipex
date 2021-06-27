@@ -2,19 +2,19 @@
 
 void	free_func(t_all *all, t_list *lst)
 {
-	int i;
+	int		i;
+	t_list	*tmp;
 
 	i = 0;
-	free(all->pid);
+	tmp = NULL;
 	while (i < all->commands_amount_pipes)
 	{
 		free(all->pipe_fd[i]);
 		i++;
 	}
 	free(all->pipe_fd);
-	t_list *tmp;
-
-	while(lst)
+	free(all->pid);
+	while (lst)
 	{
 		tmp = lst;
 		lst = lst->next;
@@ -80,7 +80,7 @@ void	init_struct(t_all *all, int argc, char **argv, char **env)
 	all->path = NULL;
 	all->cmd = NULL;
 	all->flag_path = 0;
-	all->flag_exit = 0;
+	all->errnum = 0;
 	all->pipe_fd = (int **)malloc(all->commands_amount_pipes * sizeof(int *));
 	while (i < all->commands_amount_pipes)
 	{

@@ -12,10 +12,10 @@
 
 #include "libft.h"
 
-static int		ft_wc(const char *s, char c)
+static int	ft_wc(const char *s, char c)
 {
-	int wordnumber;
-	int i;
+	int	wordnumber;
+	int	i;
 
 	wordnumber = 0;
 	i = 0;
@@ -33,7 +33,7 @@ static int		ft_wc(const char *s, char c)
 	return (wordnumber);
 }
 
-static char		*ft_everyword(const char *s, char c)
+static char	*ft_everyword(const char *s, char c)
 {
 	int		i;
 	char	*word;
@@ -51,7 +51,7 @@ static char		*ft_everyword(const char *s, char c)
 	return (word);
 }
 
-static char		*ft_free(char **splitted, int wordcount)
+static char	*ft_free(char **splitted, int wordcount)
 {
 	while (wordcount--)
 		free(splitted[wordcount]);
@@ -59,13 +59,14 @@ static char		*ft_free(char **splitted, int wordcount)
 	return (NULL);
 }
 
-char			**ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c)
 {
 	char	**splitted;
 	int		i;
 
 	i = 0;
-	if (!s || !(splitted = (char **)malloc((ft_wc(s, c) + 1) * sizeof(char*))))
+	splitted = (char **)malloc((ft_wc(s, c) + 1) * sizeof(char *));
+	if (!s || !splitted)
 		return (NULL);
 	while (*s)
 	{

@@ -44,23 +44,21 @@ SRCS	= ft_memset.c \
 	ft_strmapi.c \
 	ft_split.c \
 	ft_itoa.c \
-
-BONUS = ft_lstnew.c \
-		ft_lstadd_front.c \
-		ft_lstadd_back.c \
-		ft_lstsize.c \
-		ft_lstlast.c \
-		ft_lstdelone.c \
-		ft_lstiter.c \
-		ft_lstclear.c \
-		ft_lstmap.c \
+	ft_lstnew.c \
+	ft_lstadd_front.c \
+	ft_lstadd_back.c \
+	ft_lstsize.c \
+	ft_lstlast.c \
+	ft_lstdelone.c \
+	ft_lstiter.c \
+	ft_lstclear.c \
+	ft_lstmap.c
 	
 HEAD	= libft.h
 OBJS	= ${SRCS:.c=.o}
-OBJSBONUS	= ${BONUS:.c=.o}
 NAME	= libft.a
 CC		= gcc
-CFLAGS	= -Wall -Wextra -Werror
+CFLAGS	= -Wall -Wextra -Werror -O3
 RM		= rm -f
 
 

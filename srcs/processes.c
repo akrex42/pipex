@@ -10,19 +10,6 @@ void	wait_for_commands(t_all *all, int n)
 	{
 		waitpid(all->pid[i], &exec_ret, 0);
 		exec_ret = WEXITSTATUS(exec_ret);
-		if (exec_ret == 2)
-		{
-			if (all->flag && !all->flag_exit) // AAAAAAAAA
-			{
-				print_error(all->argv[i + 3]);
-				ft_putendl_fd("command not found", 2);
-			}
-			else if (!all->flag_exit)
-			{
-				print_error(all->argv[i + 2]);
-				ft_putendl_fd("command not found", 2);
-			}
-		}
 		i++;
 	}
 }
@@ -43,16 +30,15 @@ void	create_cmd(t_all *all, t_list *lst)
 		all->flag_path = 1;
 }
 
-int	execute_processes(t_all *all)
+void	execute_processes(t_all *all)
 {
 	int		j;
 	char	*paths;
-	char 	*tmp;
-	char 	*tmp1;
+	char	*tmp;
+	char	*tmp1;
+	int 	exit_status;
 
 	j = 0;
-	tmp = NULL;
-	tmp1 = NULL;
 	if (all->flag_path)
 		execve(all->cmd[0], all->cmd, all->env);
 	else
@@ -64,19 +50,17 @@ int	execute_processes(t_all *all)
 			tmp1 = paths;
 			free(tmp);
 			if (access(paths, X_OK) == 0)
-			{
-//				free(tmp1);
-				all->flag_exit = 1;
 				execve(paths, all->cmd, all->env);
-			}
 			free(tmp1);
 			j++;
 		}
 	}
-	return (errno);
+	exit_status = errno;
+	print_enoent(exit_status, all);
+	exit (errno);
 }
 
-int	children_processes(t_all *all, t_list *lst, int i)
+void	children_processes(t_all *all, t_list *lst, int i)
 {
 	if (i == 0)
 		file_1_handling(all, i);
@@ -84,14 +68,13 @@ int	children_processes(t_all *all, t_list *lst, int i)
 		file_2_handling(all, i);
 	else
 	{
-		dup2(all->pipe_fd[i - 1][0], 0);
-		dup2(all->pipe_fd[i][1], 1);
+		dup2(all->pipe_fd[i - 1][0], STDIN_FILENO);
+		dup2(all->pipe_fd[i][1], STDOUT_FILENO);
 	}
 	close_pipes(all);
 	create_cmd(all, lst);
 	find_path(all);
-	errno = execute_processes(all);
-	exit (errno);
+	execute_processes(all);
 }
 
 void	create_processes(t_all *all, t_list *lst)
@@ -109,16 +92,7 @@ void	create_processes(t_all *all, t_list *lst)
 			exit(1);
 		}
 		else if (all->pid[i] == 0)
-		{
-//			ft_putnbr_fd(errno, 2);
-			errno = children_processes(all, lst, i);
-			if (all->flag && errno)
-				print_error(all->argv[i + 3]);
-			else if (errno)
-				print_error(all->argv[i + 2]);
-			ft_putstr_fd(strerror(errno), 2);
-			exit(1);
-		}
+			children_processes(all, lst, i);
 		i++;
 		lst = lst->next;
 	}
