@@ -88,3 +88,19 @@ void	init_struct(t_all *all, int argc, char **argv, char **env)
 		i++;
 	}
 }
+
+void	execute_processes_2(t_all *all, char *paths, int j)
+{
+	char	*tmp;
+	char	*tmp1;
+
+	tmp = NULL;
+	tmp1 = NULL;
+	tmp = all->path[j];
+	paths = ft_strjoin(all->path[j], all->cmd[0]);
+	tmp1 = paths;
+	free(tmp);
+	if (access(paths, X_OK) == 0)
+		execve(paths, all->cmd, all->env);
+	free(tmp1);
+}

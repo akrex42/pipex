@@ -45,9 +45,9 @@ echo -e "                           -------5-------"
 echo -e "                      ${RED}RIGHTS TO FILE ARE PUT TO 000${ENDCOLOR}"
 echo -e "                            chmod 000 file2" && chmod 000 file2
 echo -e "                            ${CYAN}PIPEX OUTPUT${ENDCOLOR}"
-echo -e "             ${MAGENTA}./pipex 'file1' 'cat' 'cat' 'file2' && cat file2${ENDCOLOR}" && ./pipex 'file1' 'cat' 'cat' 'file2' && cat file2
+echo -e "             ${MAGENTA}./pipex 'file1' 'cat' 'cat' 'file2' ; cat file2${ENDCOLOR}" && ./pipex 'file1' 'cat' 'cat' 'file2' ; cat file2
 echo -e "                            ${CYAN}ZSH OUTPUT${ENDCOLOR}"
-echo -e "               ${MAGENTA}< file1 cat | cat > file2 && cat file2${ENDCOLOR}" && < file1 cat | cat >file2 && cat file2
+echo -e "               ${MAGENTA}< file1 cat | cat > file2 ; cat file2${ENDCOLOR}" && < file1 cat | cat >file2 ; cat file2
 echo -e "                           -------6-------"
 echo -e "                      ${GREEN}EXAMPLE OF OTHER COMMAND${ENDCOLOR}"
 echo -e "                          chmod 777 file2" && chmod 777 file2
@@ -67,6 +67,10 @@ echo -e "                            ${CYAN}PIPEX OUTPUT${ENDCOLOR}"
 echo -e "             ${MAGENTA}./pipex 'file1' './file2' 'wc -w' 'file2' && cat file2${ENDCOLOR}" && ./pipex 'file1' './file2' 'wc -w' 'file2' && cat file2
 echo -e "                            ${CYAN}ZSH OUTPUT${ENDCOLOR}"
 echo -e "               ${MAGENTA}< file1 ./file2 | wc -w > file2 && cat file2${ENDCOLOR}" && < file1 ./file2 | wc -w >file2 && cat file2
+echo -e "                           -------8-------"
+echo -e "                              ${GREEN}NO ARGS${ENDCOLOR}"
+echo -e "                            ${CYAN}PIPEX OUTPUT${ENDCOLOR}"
+echo -e "             ${MAGENTA}./pipex${ENDCOLOR}" && ./pipex
 echo -e "                             BONUS PART"
 echo -e "                           -------1-------"
 echo -e "                            ${GREEN}(^・ω・^ )${ENDCOLOR}"

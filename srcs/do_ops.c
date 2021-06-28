@@ -7,6 +7,8 @@ void	print_enoent(int exit_status, t_all *all)
 		print_error(&(all->cmd[0][1]));
 		ft_putendl_fd("command not found", 2);
 	}
+	else if (exit_status == EACCES)
+		perror(all->cmd[0]);
 }
 
 int	internal_cycle(t_all *all)

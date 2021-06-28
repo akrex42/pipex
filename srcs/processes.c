@@ -34,24 +34,17 @@ void	execute_processes(t_all *all)
 {
 	int		j;
 	char	*paths;
-	char	*tmp;
-	char	*tmp1;
-	int 	exit_status;
+	int		exit_status;
 
 	j = 0;
+	paths = NULL;
 	if (all->flag_path)
 		execve(all->cmd[0], all->cmd, all->env);
 	else
 	{
 		while (all->path[j] != NULL)
 		{
-			tmp = all->path[j];
-			paths = ft_strjoin(all->path[j], all->cmd[0]);
-			tmp1 = paths;
-			free(tmp);
-			if (access(paths, X_OK) == 0)
-				execve(paths, all->cmd, all->env);
-			free(tmp1);
+			execute_processes_2(all, paths, j);
 			j++;
 		}
 	}

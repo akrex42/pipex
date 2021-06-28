@@ -52,5 +52,6 @@ void			free_func(t_all *all, t_list *lst);
 void			print_error(char *arg);
 int				internal_cycle(t_all *all);
 void			print_enoent(int exit_status, t_all *all);
+void			execute_processes_2(t_all *all, char *paths, int j);
 
 #endif
