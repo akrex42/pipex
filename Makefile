@@ -1,31 +1,46 @@
-SRCS  = srcs/do_ops.c srcs/files_handling.c srcs/inits_and_free.c \
-			srcs/pipes.c srcs/pipex.c srcs/processes.c \
-			srcs/get_next_line.c
-SRCS_DIR = ./srcs/
-HEAD	= includes/pipex.h
-OBJS	= ${SRCS:.c=.o}
-NAME	= pipex
-CC		= gcc
-CFLAGS	= -Wall -Wextra -Werror -g
-RM		= rm -f
-LIBFT 	= libft/libft.a
-LIBFTDIR = ./libft/
+NAME		= pipex
+
+SRCS_DIR	= ./srcs/
+
+SRCS		= $(wildcard $(SRCS_DIR)*.c)
+
+HEADERS		= ./includes/pipex.h
+
+OBJS		= $(patsubst %.c,%.o,$(SRCS))
+
+DEPENDS		= $(patsubst %.c,%.d,$(SRCS))
+
+CC			= gcc
+
+CFLAGS		= -Wall -Wextra -Werror
+
+LDFLAGS		= -Wall -Wextra -Werror
+
+RM			= rm -f
+
+LIBFTDIR	= ./libft/
+
+LIBFT		= $(LIBFTDIR)libft.a
 
 all: $(NAME) $(LIBFT)
 
-$(NAME) : $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(LIBFT) $^ -o $@
+$(NAME): $(OBJS) $(LIBFT)
+	$(CC) $(LDFLAGS) $^ -o $@
+
+$(SRCS_DIR)%.o: $(SRCS_DIR)%.c $(LIBFT) Makefile
+	$(CC) $(CFLAGS) -MMD -MP -c $< -o $@
 
 $(LIBFT):
 	make -C $(LIBFTDIR)
 
+-include $(DEPENDS)
+
 clean:
-		$(RM) $(OBJS)
+		$(RM) $(OBJS) $(DEPENDS)
 		make -C $(LIBFTDIR) clean
 
 fclean: clean
 		make -C $(LIBFTDIR) fclean
-		$(RM) $(NAME)
 
 re: fclean all
 
